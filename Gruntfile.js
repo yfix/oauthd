@@ -65,6 +65,7 @@ module.exports = function(grunt) {
                 }
             }
         },
+
         taskDefault: ['coffee'],
         taskServer: ['watch', 'nodemon:server']
     };

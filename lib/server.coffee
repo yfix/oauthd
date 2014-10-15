@@ -113,7 +113,7 @@ server.post config.base + '/refresh_token/:provider', (req, res, next) ->
 				if not provider.oauth2?.refresh
 					return next new check.Error "refresh token not supported for " + req.params.provider
 				oa = new oauth.oauth2(provider, keyset.parameters)
-				oa.refresh req.body.token, send(res,next)
+				oa.refresh req.body.token, keyset, send(res,next)
 
 # iframe injection for IE
 server.get config.base + '/iframe', (req, res, next) ->
@@ -193,7 +193,7 @@ clientCallback = (data, req, res, next) -> (e, r) -> #data:state,provider,redire
 		uaparser.setUA req.headers['user-agent']
 		browser = uaparser.getBrowser()
 		chromeext = data.origin.match(/chrome-extension:\/\/([^\/]+)/)
-		if browser.name.substr(0,2) == 'IE'
+		if browser.name?.substr(0,2) == 'IE'
 			res.setHeader 'p3p', 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"'
 			view += 'function createCookie(name, value) {\n'
 			view += '	var date = new Date();\n'
